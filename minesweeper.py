@@ -214,7 +214,7 @@ class MinesweeperAI():
         """
         # Make the move 
         self.moves_made.add(cell)
-        self.safes.discard(cell)
+        self.mark_safe(cell)
 
         # Create a set of nearby questionable cells
         nearby_unknown_cells = set()
@@ -223,28 +223,35 @@ class MinesweeperAI():
                 continue
             nearby_unknown_cells.add(nearby_cell)
 
-        if count == 0:
-            self.safes = set.union(self.safes, nearby_unknown_cells)
-        else:
-            if len(nearby_unknown_cells) != 0:
-                 self.knowledge.append(Sentence(nearby_unknown_cells, count))
+        # Process knowledge of selected cell's adjacent cells
+        # if count == 0:
+        #     # If selected cell is not touching any mines (count=0), add the adjacent cells to the safe cells set
+        #     self.safes = set.union(self.safes, nearby_unknown_cells)
+        # else:
+        if len(nearby_unknown_cells) != 0:
+            self.knowledge.append(Sentence(nearby_unknown_cells, count))
 
-        for sentence in self.knowledge:
-            found_mines = sentence.known_mines()
-            found_safes = sentence.known_safes()
-            
-            if len(found_mines) != 0:
-                self.mines = set.union(self.mines, found_mines)
-                for mine in found_mines:
-                    self.mark_mine(mine)
-                self.knowledge.remove(sentence)
-            if len(found_safes) != 0:
-                self.safes = set.union(self.safes, found_safes)
-                for safe in found_safes:
-                    self.mark_safe(safe)
-                self.knowledge.remove(sentence)
+            for sentence in self.knowledge:
+                # Creating the sets in this way allows to cerate a deep copy of the known mines/safes 
+                # so that we will be able to iterate over then in the code that follows
+                found_mines = set()
+                found_mines |= sentence.known_mines()
+                found_safes = set()
+                found_safes |= sentence.known_safes()
+                
+                # Since we've marked at least one new cell safe (this turn's cell), hopefully this has affected at least one of the KB senetences
+                # Check each sentence to see if it can conclude a new mine or safe field, propogate any findings accross the KB
+                if len(found_mines) != 0:
+                    for mine in found_mines:
+                        self.mark_mine(mine)
+                    self.knowledge.remove(sentence)
+                if len(found_safes) != 0:
+                    for safe in found_safes:
+                        self.mark_safe(safe)
+                    self.knowledge.remove(sentence)
 
-            
+
+
 
 
     def make_safe_move(self):
@@ -256,8 +263,9 @@ class MinesweeperAI():
         This function may use the knowledge in self.mines, self.safes
         and self.moves_made, but should not modify any of those values.
         """
-        if len(self.safes) != 0:
-            return next(iter(self.safes))
+        potential_moves = self.safes - self.moves_made
+        if len(potential_moves) != 0:
+            return next(iter(potential_moves))
         else:
             return None
 
