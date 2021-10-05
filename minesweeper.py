@@ -212,27 +212,31 @@ class MinesweeperAI():
             5) add any new sentences to the AI's knowledge base
                if they can be inferred from existing knowledge
         """
+        print(" -> Safe move: " + str(cell) + ", count: " + str(count))
+
         # Make the move 
         self.moves_made.add(cell)
         self.mark_safe(cell)
 
         # Create a set of nearby questionable cells
-        nearby_unknown_cells = set()
-        for nearby_cell in self.get_nearby_cells(cell):
-            if nearby_cell in self.moves_made or nearby_cell in self.mines or nearby_cell in self.safes:
+        adjacent_cells = set()
+        adjacent_cells = self.get_nearby_cells(cell)
+        new_sentence_cells = set()
+        for adjacent_cell in adjacent_cells:
+            if adjacent_cell in self.moves_made or adjacent_cell in self.safes:
                 continue
-            nearby_unknown_cells.add(nearby_cell)
+            if adjacent_cell in self.mines:
+                count -= 1
+                continue
+            new_sentence_cells.add(adjacent_cell)
 
-        # Process knowledge of selected cell's adjacent cells
-        # if count == 0:
-        #     # If selected cell is not touching any mines (count=0), add the adjacent cells to the safe cells set
-        #     self.safes = set.union(self.safes, nearby_unknown_cells)
-        # else:
-        if len(nearby_unknown_cells) != 0:
-            self.knowledge.append(Sentence(nearby_unknown_cells, count))
+        # Add your new sentence to the knowledge base
+        if len(new_sentence_cells) != 0:
+            new_sentence = Sentence(new_sentence_cells, count)
+            self.knowledge.append(new_sentence)
 
             for sentence in self.knowledge:
-                # Creating the sets in this way allows to cerate a deep copy of the known mines/safes 
+                # Creating the sets in this way allows to create a deep copy of the known mines/safes 
                 # so that we will be able to iterate over then in the code that follows
                 found_mines = set()
                 found_mines |= sentence.known_mines()
@@ -250,8 +254,13 @@ class MinesweeperAI():
                         self.mark_safe(safe)
                     self.knowledge.remove(sentence)
 
-
-
+            # Infer new knowledge sentences from existing knowledge sentences
+            for sentence in self.knowledge:
+                if new_sentence.cells and sentence.cells != new_sentence.cells:
+                    if sentence.cells.issubset(new_sentence.cells) and sentence not in self.knowledge:
+                        self.knowledge.append(Sentence(new_sentence.cells-sentence.cells, new_sentence.count-sentence.count))
+                    if new_sentence.cells.issubset(sentence.cells) and sentence not in self.knowledge:
+                        self.knowledge.append(Sentence(sentence.cells-new_sentence.cells, sentence.count-new_sentence.count))
 
 
     def make_safe_move(self):
@@ -276,6 +285,7 @@ class MinesweeperAI():
             1) have not already been chosen, and
             2) are not known to be mines
         """
+        # Set of all board cells is stored in memory to save time every random move.
         potential_moves = self.all_board_cells - self.moves_made - self.mines
 
         if len(potential_moves) == 0:
