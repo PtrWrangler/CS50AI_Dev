@@ -172,6 +172,42 @@ def iterate_pagerank(corpus, damping_factor):
     their estimated PageRank value (a value between 0 and 1). All
     PageRank values should sum to 1.
     """
+
+    #Initialize the Page Ranks with equal probability for each page
+    page_ranks_dict = {webpage : 1/len(corpus) for webpage in corpus}
+    # print (str(page_ranks_dict))
+
+    threshold = 0.001
+
+    # Loop until all all page rank changes are negligable
+    while (True):
+        nothing_changed = True
+        sum = 0
+        # For each page that we are ranking...
+        for ranked_page in page_ranks_dict:
+
+            # If we find a page in the corpus that links to it...
+            for webpage, links in corpus.items():
+                if ranked_page not in links:
+                    continue
+
+                sum += page_ranks_dict[webpage] / len(links)
+            
+            new_page_rank = (1 - damping_factor) / len(corpus) + (damping_factor * sum)
+            print ("ranked_page: " + str(ranked_page) + ", new_page_rank: " + str(new_page_rank) + ", page_ranks_dict[ranked_page]:" + str(page_ranks_dict[ranked_page]) + ", current sum: " + str(sum))
+            if abs(page_ranks_dict[ranked_page] - new_page_rank) > threshold:
+                page_ranks_dict[ranked_page] = new_page_rank
+                nothing_changed = False
+
+        if nothing_changed == True:
+            break
+
+
+    return page_ranks_dict
+
+
+
+
     # # Calculate some constants from the corpus for further use:
     # num_pages = len(corpus)
     # init_rank = 1 / num_pages
