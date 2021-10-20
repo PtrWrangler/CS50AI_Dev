@@ -82,10 +82,6 @@ def transition_model(corpus, page, damping_factor):
 
     return prob_dist
 
-    
-    
-    
-
 
 def sample_pagerank(corpus, damping_factor, n):
     """
@@ -109,8 +105,6 @@ def sample_pagerank(corpus, damping_factor, n):
 
         transit_model = transition_model(corpus, cur_page, DAMPING)
 
-        # -----------------
-
         # Travel to next page based on the transition model probabilities
         rand_val = random.uniform(0,1)
         total_prob = 0
@@ -121,46 +115,13 @@ def sample_pagerank(corpus, damping_factor, n):
                 curr_page = webpage
                 break
 
+        # log a page hit for the newly chosen page selected using the transition model probabilities
         page_hits[curr_page] += 1
 
     # Get the final page rank probabilities by dividing the page hits by the total numbert of samples
     page_ranks = {webpage: (hits/n) for webpage, hits in page_hits.items()}
 
     return page_ranks
-
-    #     damping_variable = random.uniform(0, 1)
-    #     if damping_variable > damping_factor:
-    #         # Choose random page from all pages in corpus
-    #         cur_page = random.choice(list(corpus.items()))[0]
-    #         page_hits[cur_page] += 1
-    #         # print ("Random choice from all corpus: " + str(cur_page))
-    #     else:
-    #         # Follow random page from this page links
-    #         # prev_page = cur_page
-    #         cur_page = random.choice(list(corpus.get(cur_page)))
-    #         page_hits[cur_page] += 1
-    #         # print ("Random follow from " + str(prev_page) + ": " + str(cur_page))
-
-    # print (str(page_hits))
-
-    # # Turn the page hitcounts into a probability table
-    # for key, val in page_hits.items():
-    #     probability = {key : val/SAMPLES}
-    #     page_hits.update(probability)
-    #     # page_hits.get(key)[1] = val/SAMPLES
-
-    # print (str(page_hits))
-
-    # return page_hits
-
-
-
-    # for page in corpus:
-    #     print ("prob table starting from page " + str(page))
-    #     transition_model(corpus, page, damping_factor)
-
-    # return dict()
-
 
 
 def iterate_pagerank(corpus, damping_factor):
@@ -175,87 +136,37 @@ def iterate_pagerank(corpus, damping_factor):
 
     #Initialize the Page Ranks with equal probability for each page
     page_ranks_dict = {webpage : 1/len(corpus) for webpage in corpus}
-    # print (str(page_ranks_dict))
 
-    threshold = 0.001
+    # Threshold of PageRank value convergence
+    threshold = 0.0005
 
     # Loop until all all page rank changes are negligable
-    while (True):
+    nothing_changed = False
+    while (not nothing_changed):
         nothing_changed = True
-        sum = 0
+        
         # For each page that we are ranking...
         for ranked_page in page_ranks_dict:
 
+            sigma = 0
             # If we find a page in the corpus that links to it...
             for webpage, links in corpus.items():
                 if ranked_page not in links:
                     continue
 
-                sum += page_ranks_dict[webpage] / len(links)
+                # Summation part of the Iterative PageRank Algorithm Formula
+                sigma += page_ranks_dict[webpage] / len(links)
             
-            new_page_rank = (1 - damping_factor) / len(corpus) + (damping_factor * sum)
-            print ("ranked_page: " + str(ranked_page) + ", new_page_rank: " + str(new_page_rank) + ", page_ranks_dict[ranked_page]:" + str(page_ranks_dict[ranked_page]) + ", current sum: " + str(sum))
-            if abs(page_ranks_dict[ranked_page] - new_page_rank) > threshold:
-                page_ranks_dict[ranked_page] = new_page_rank
+            # Applying the Iterative PageRank Algorithm Formula
+            iterative_algo_formula_part1  = (1 - damping_factor) / len(corpus)
+            iterative_algo_formula_part2  = damping_factor * sigma
+            iterative_algo_formula_result = iterative_algo_formula_part1 + iterative_algo_formula_part2
+
+            if abs(page_ranks_dict[ranked_page] - iterative_algo_formula_result) > threshold:
+                page_ranks_dict[ranked_page] = iterative_algo_formula_result
                 nothing_changed = False
 
-        if nothing_changed == True:
-            break
-
-
     return page_ranks_dict
-
-
-
-
-    # # Calculate some constants from the corpus for further use:
-    # num_pages = len(corpus)
-    # init_rank = 1 / num_pages
-    # random_choice_prob = (1 - damping_factor) / len(corpus)
-    # iterations = 0
-
-    # # Initial page_rank gives every page a rank of 1/(num pages in corpus)
-    # page_ranks = {page_name: init_rank for page_name in corpus}
-    # new_ranks = {page_name: None for page_name in corpus}
-    # max_rank_change = init_rank
-
-    # # Iteratively calculate page rank until no change > 0.001
-    # while max_rank_change > 0.001:
-
-    #     iterations += 1
-    #     max_rank_change = 0
-
-    #     for page_name in corpus:
-    #         surf_choice_prob = 0
-    #         for other_page in corpus:
-    #             # If other page has no links it picks randomly any corpus page:
-    #             if len(corpus[other_page]) == 0:
-    #                 surf_choice_prob += page_ranks[other_page] * init_rank
-    #             # Else if other_page has a link to page_name, it randomly picks from all links on other_page:
-    #             elif page_name in corpus[other_page]:
-    #                 surf_choice_prob += page_ranks[other_page] / len(corpus[other_page])
-    #         # Calculate new page rank
-    #         new_rank = random_choice_prob + (damping_factor * surf_choice_prob)
-    #         new_ranks[page_name] = new_rank
-
-    #     # Normalise the new page ranks:
-    #     norm_factor = sum(new_ranks.values())
-    #     new_ranks = {page: (rank / norm_factor) for page, rank in new_ranks.items()}
-
-    #     # Find max change in page rank:
-    #     for page_name in corpus:
-    #         rank_change = abs(page_ranks[page_name] - new_ranks[page_name])
-    #         if rank_change > max_rank_change:
-    #             max_rank_change = rank_change
-
-    #     # Update page ranks to the new ranks:
-    #     page_ranks = new_ranks.copy()
-
-    # print('Iteration took', iterations, 'iterations to converge')
-    # print('Sum of iteration page ranks: ', round(sum(page_ranks.values()), 4))
-
-    # return page_ranks
-
 
 if __name__ == "__main__":
     main()
