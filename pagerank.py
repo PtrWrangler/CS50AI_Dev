@@ -59,7 +59,7 @@ def transition_model(corpus, page, damping_factor):
     """
 
     # Initialise probability distribution dict
-    prob_dist = {webpage : 0 for webpage in corpus}
+    prob_dist = {webpage: 0 for webpage in corpus}
 
     # Probability of following a link from the current page
     link_follow_prob = damping_factor / len(corpus.get(page))
@@ -69,7 +69,7 @@ def transition_model(corpus, page, damping_factor):
 
     # If Webpage has no links, give equal probability to all pages
     if len(list(corpus.get(page))) == 0:
-        print ("webpage has no links, equal probability for all pages.")
+        print("webpage has no links, equal probability for all pages.")
         equal_probability = 1 / len(corpus)
         for webpage in corpus.keys():
             prob_dist[webpage] = equal_probability
@@ -94,7 +94,7 @@ def sample_pagerank(corpus, damping_factor, n):
     """
     
     # For each webpage key in corpus, initialize hit count
-    page_hits = {webpage : 0 for webpage in corpus}
+    page_hits = {webpage: 0 for webpage in corpus}
     
     # Randomly choose first page
     cur_page = random.choice(list(corpus.items()))[0]
@@ -106,7 +106,7 @@ def sample_pagerank(corpus, damping_factor, n):
         transit_model = transition_model(corpus, cur_page, DAMPING)
 
         # Travel to next page based on the transition model probabilities
-        rand_val = random.uniform(0,1)
+        rand_val = random.uniform(0, 1)
         total_prob = 0
 
         for webpage, probability in transit_model.items():
@@ -134,8 +134,8 @@ def iterate_pagerank(corpus, damping_factor):
     PageRank values should sum to 1.
     """
 
-    #Initialize the Page Ranks with equal probability for each page
-    page_ranks_dict = {webpage : 1/len(corpus) for webpage in corpus}
+    # Initialize the Page Ranks with equal probability for each page
+    page_ranks_dict = {webpage: 1/len(corpus) for webpage in corpus}
 
     # Threshold of PageRank value convergence
     threshold = 0.0005
@@ -158,8 +158,8 @@ def iterate_pagerank(corpus, damping_factor):
                 sigma += page_ranks_dict[webpage] / len(links)
             
             # Applying the Iterative PageRank Algorithm Formula
-            iterative_algo_formula_part1  = (1 - damping_factor) / len(corpus)
-            iterative_algo_formula_part2  = damping_factor * sigma
+            iterative_algo_formula_part1 = (1 - damping_factor) / len(corpus)
+            iterative_algo_formula_part2 = damping_factor * sigma
             iterative_algo_formula_result = iterative_algo_formula_part1 + iterative_algo_formula_part2
 
             if abs(page_ranks_dict[ranked_page] - iterative_algo_formula_result) > threshold:
@@ -167,6 +167,7 @@ def iterate_pagerank(corpus, damping_factor):
                 nothing_changed = False
 
     return page_ranks_dict
+    
 
 if __name__ == "__main__":
     main()
