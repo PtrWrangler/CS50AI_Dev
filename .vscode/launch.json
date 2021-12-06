@@ -8,8 +8,8 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "C:\\Users\\mtr24\\Desktop\\Projects\\CS50AI\\CS50AI_Dev\\pagerank.py",
-            "args": ["corpus2"],
+            "program": "C:\\Users\\mtr24\\OneDrive\\Desktop\\Projects\\CS50AI\\CS50AI_Dev\\heredity.py",
+            "args": ["C:\\Users\\mtr24\\OneDrive\\Desktop\\Projects\\CS50AI\\CS50AI_Dev\\data\\family0.csv"],
             "console": "integratedTerminal"
         }
     ]
