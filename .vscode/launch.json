@@ -9,6 +9,7 @@
             "type": "python",
             "request": "launch",
             "program": "C:\\Users\\mtr24\\OneDrive\\Desktop\\Projects\\CS50AI\\CS50AI_Dev\\heredity.py",
+            // "program": "C:\\Users\\mtr24\\OneDrive\\Desktop\\Projects\\CS50AI\\CS50AI_Dev\\test2.py",
             "args": ["C:\\Users\\mtr24\\OneDrive\\Desktop\\Projects\\CS50AI\\CS50AI_Dev\\data\\family0.csv"],
             "console": "integratedTerminal"
         }
