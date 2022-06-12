@@ -1,5 +1,8 @@
 import csv
+from select import select
 import sys
+from time import monotonic
+from sklearn.linear_model import Perceptron
 
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
@@ -59,7 +62,55 @@ def load_data(filename):
     labels should be the corresponding list of labels, where each label
     is 1 if Revenue is true, and 0 otherwise.
     """
-    raise NotImplementedError
+
+    evidence                = []
+    labels                  = []
+
+    with open(filename, newline='') as csv_file:
+        csv_dict = csv.DictReader(csv_file)      
+    
+        for col in csv_dict:
+            evidence_row = []
+            evidence_row.append( int(col['Administrative']) )
+            evidence_row.append( float(col['Administrative_Duration']) )
+            evidence_row.append( int(col['Informational']) )
+            evidence_row.append( float(col['Informational_Duration']) )
+            evidence_row.append( int(col['ProductRelated']) )
+            evidence_row.append( float(col['ProductRelated_Duration']) )
+            evidence_row.append( float(col['BounceRates']) )
+            evidence_row.append( float(col['ExitRates']) )
+            evidence_row.append( float(col['PageValues']) )
+            evidence_row.append( float(col['SpecialDay']) )
+            evidence_row.append( process_month(col['Month']) )
+            evidence_row.append( int(col['OperatingSystems']) )
+            evidence_row.append( int(col['Browser']) )
+            evidence_row.append( int(col['Region']) )
+            evidence_row.append( int(col['TrafficType']) )
+            evidence_row.append( 1 if col['VisitorType'] == 'Returning_Visitor' else 0 )
+            evidence_row.append( 1 if col['Weekend'] == 'TRUE' else 0 )
+            
+            evidence.append(evidence_row)
+
+            labels.append( 1 if col['Revenue'] == 'TRUE' else 0 )
+
+    return (evidence, labels)
+
+def process_month(str_month):
+    return {
+        'Jan' : 0,
+        'Feb' : 1,
+        'Mar' : 2,
+        'Apr' : 3,
+        'May' : 4,
+        'June': 5,
+        'Jul' : 6,
+        'Aug' : 7,
+        'Sep' : 8,
+        'Oct' : 9,
+        'Nov' : 10,
+        'Dec' : 11
+    }.get(str_month, 0)
+     
 
 
 def train_model(evidence, labels):
@@ -67,7 +118,11 @@ def train_model(evidence, labels):
     Given a list of evidence lists and a list of labels, return a
     fitted k-nearest neighbor model (k=1) trained on the data.
     """
-    raise NotImplementedError
+    
+    model = KNeighborsClassifier()
+    model.fit(evidence, labels)
+
+    return model
 
 
 def evaluate(labels, predictions):
