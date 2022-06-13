@@ -2,6 +2,7 @@ import csv
 from select import select
 import sys
 from time import monotonic
+from numpy import true_divide
 from sklearn.linear_model import Perceptron
 
 from sklearn.model_selection import train_test_split
@@ -66,6 +67,7 @@ def load_data(filename):
     evidence                = []
     labels                  = []
 
+    #Read all the CSV data into a dict, then create our desired evidence list of lists, and labels list
     with open(filename, newline='') as csv_file:
         csv_dict = csv.DictReader(csv_file)      
     
@@ -119,7 +121,8 @@ def train_model(evidence, labels):
     fitted k-nearest neighbor model (k=1) trained on the data.
     """
     
-    model = KNeighborsClassifier()
+    # Use KNeighborsClassifier model, fit the model with our data from the input csv
+    model = KNeighborsClassifier(n_neighbors=1)
     model.fit(evidence, labels)
 
     return model
@@ -140,7 +143,25 @@ def evaluate(labels, predictions):
     representing the "true negative rate": the proportion of
     actual negative labels that were accurately identified.
     """
-    raise NotImplementedError
+
+    # compare all of the actual labels to the predicted labels and accumulate the true positive/negative results
+    true_positives = 0
+    true_negatives = 0
+    total = 0
+    for actual, predicted in zip(labels, predictions):
+        total += 1
+        if actual == predicted and actual == 1:
+            true_positives += 1
+        elif actual == predicted and actual == 0:
+            true_negatives += 1
+
+    print ("True Positives: " + str(true_positives) + ", True Negatives:" + str(true_negatives) + ", Total results:" + str(total))
+
+    # Calculate the rate of these True Positives/Negatives as Sensitivity/Specificity
+    sensitivity = true_positives / total
+    specificity = true_negatives / total
+
+    return (sensitivity, specificity)
 
 
 if __name__ == "__main__":
