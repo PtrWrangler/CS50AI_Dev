@@ -145,21 +145,27 @@ def evaluate(labels, predictions):
     """
 
     # compare all of the actual labels to the predicted labels and accumulate the true positive/negative results
-    true_positives = 0
-    true_negatives = 0
+    total_positives = 0
+    true_positives  = 0
+    total_negatives = 0
+    true_negatives  = 0
     total = 0
     for actual, predicted in zip(labels, predictions):
         total += 1
-        if actual == predicted and actual == 1:
-            true_positives += 1
-        elif actual == predicted and actual == 0:
-            true_negatives += 1
+        if actual == 1:
+            total_positives += 1
+            if actual == predicted:
+                true_positives += 1
+        if actual == 0:
+            total_negatives += 1
+            if actual == predicted:
+                true_negatives += 1
 
-    print ("True Positives: " + str(true_positives) + ", True Negatives:" + str(true_negatives) + ", Total results:" + str(total))
+    print (f"True Positives, Total Positives: ({true_positives}, {total_positives}), True Negatives, Total Negatives: ({true_negatives}, {total_negatives}), Total results: {total}")
 
     # Calculate the rate of these True Positives/Negatives as Sensitivity/Specificity
-    sensitivity = true_positives / total
-    specificity = true_negatives / total
+    sensitivity = true_positives / total_positives
+    specificity = true_negatives / total_negatives
 
     return (sensitivity, specificity)
 
