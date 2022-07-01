@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 import math
 import random
 import time
@@ -101,7 +102,12 @@ class NimAI():
         Return the Q-value for the state `state` and the action `action`.
         If no Q-value exists yet in `self.q`, return 0.
         """
-        raise NotImplementedError
+        
+        lKey = (tuple(state), action)
+        if lKey not in self.q:
+            return 0
+        else:
+            return self.q[lKey]
 
     def update_q_value(self, state, action, old_q, reward, future_rewards):
         """
@@ -118,7 +124,17 @@ class NimAI():
         `alpha` is the learning rate, and `new value estimate`
         is the sum of the current reward and estimated future rewards.
         """
-        raise NotImplementedError
+
+        key = (tuple(state), action)
+        self.q[key] = old_q + self.alpha * ((reward + future_rewards) - old_q)
+
+        # mystr = ""
+        # for key, val in self.q:
+        #     mystr += f"{key[0]}, {key[1]}, {key[2]}, {key[3]}, {val[0]}, {val[1]}, {self.q[key, val]} \n"
+            
+        # with open('out.csv', 'w') as csvfile:
+        #     csvfile.write(mystr)
+
 
     def best_future_reward(self, state):
         """
@@ -130,7 +146,33 @@ class NimAI():
         Q-value in `self.q`. If there are no available actions in
         `state`, return 0.
         """
-        raise NotImplementedError
+
+        # Get the best action (action with the best future reward)
+        best_action = self.best_action(state)
+        if best_action == NULL:
+            return 0
+        else:
+            return self.q[(tuple(state), best_action)]
+
+
+    def best_action(self, state):
+
+        best_action = NULL
+        best_future_reward = 0
+        for idx, row in enumerate(state):
+            if row == 0:
+                continue
+
+            for num_sticks in range(1, row+1):
+                action = (idx, num_sticks)
+                state_action_key = (tuple(state), action)
+                if state_action_key in self.q:
+                    if self.q[state_action_key] > best_future_reward:
+                        best_action        = state_action_key[1]
+                        best_future_reward = self.q[state_action_key]
+
+        return best_action
+
 
     def choose_action(self, state, epsilon=True):
         """
@@ -147,7 +189,47 @@ class NimAI():
         If multiple actions have the same Q-value, any of those
         options is an acceptable return value.
         """
-        raise NotImplementedError
+        
+        if epsilon == True:
+
+            probability = random.randint(0, 100) / 100
+            
+            # Probability of epsilon: choose random move
+            if probability <= self.epsilon:
+                return self.random_action(state)
+                print ("AI brain fart move")
+                
+            # Probability of 1-epsilon: choose best move (Greedy)
+            else:
+                return self.choose_best_action(state)    
+
+        else:
+            return self.choose_best_action(state)
+
+
+    def choose_best_action(self, state):
+        best_action = self.best_action(state)
+        if best_action == NULL:
+            return self.random_action(state)
+        else:
+            return best_action
+                
+
+    def random_action(self, state):
+        # Make list of non empty rows to choose from
+        non_empty_rows = []
+        for idx, val in enumerate(state):
+            if val != 0:
+                non_empty_rows.append((idx, val))
+        
+        if len(non_empty_rows) == 0:
+            print ("error no sticks to pick at all.")
+
+        non_empty_row = random.choice(non_empty_rows)
+        rand_row      = non_empty_row[0]
+        rand_sticks   = random.randint(1, state[rand_row])
+
+        return (rand_row, rand_sticks)
 
 
 def train(n):

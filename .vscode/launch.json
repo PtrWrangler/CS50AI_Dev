@@ -8,10 +8,10 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "C:\\Users\\mtr24\\OneDrive\\Desktop\\Projects\\CS50AI\\CS50AI_Dev\\generate.py",
+            "program": "C:\\Users\\mtr24\\OneDrive\\Desktop\\Projects\\CS50AI\\CS50AI_Dev\\play.py",
             // "program": "C:\\Users\\mtr24\\OneDrive\\Desktop\\Projects\\CS50AI\\CS50AI_Dev\\test2.py",
-            "args": ["C:\\Users\\mtr24\\OneDrive\\Desktop\\Projects\\CS50AI\\CS50AI_Dev\\data\\structure0.txt",
-                     "C:\\Users\\mtr24\\OneDrive\\Desktop\\Projects\\CS50AI\\CS50AI_Dev\\data\\words0.txt"],
+            // "args": ["C:\\Users\\mtr24\\OneDrive\\Desktop\\Projects\\CS50AI\\CS50AI_Dev\\data\\structure0.txt",
+            //          "C:\\Users\\mtr24\\OneDrive\\Desktop\\Projects\\CS50AI\\CS50AI_Dev\\data\\words0.txt"],
             "console": "integratedTerminal"
         }
     ]
