@@ -147,7 +147,13 @@ class NimAI():
         If multiple actions have the same Q-value, any of those
         options is an acceptable return value.
         """
-        raise NotImplementedError
+        
+        if epsilon == True:
+            if len(self.q) == 0:
+                rand_row    = random.randint(0, len(state)-1)
+                rand_sticks = random.randint(0, )
+
+        print (rand_row)
 
 
 def train(n):
