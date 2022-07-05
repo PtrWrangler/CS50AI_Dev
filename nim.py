@@ -101,7 +101,12 @@ class NimAI():
         Return the Q-value for the state `state` and the action `action`.
         If no Q-value exists yet in `self.q`, return 0.
         """
-        raise NotImplementedError
+        
+        lKey = (tuple(state), action)
+        if lKey not in self.q:
+            return 0
+        else:
+            return self.q[lKey]
 
     def update_q_value(self, state, action, old_q, reward, future_rewards):
         """
@@ -149,11 +154,27 @@ class NimAI():
         """
         
         if epsilon == True:
+            # No available actions, so choose a random action
             if len(self.q) == 0:
-                rand_row    = random.randint(0, len(state)-1)
-                rand_sticks = random.randint(0, )
+                
+                # Make list of non empty rows to choose from
+                non_empty_rows = []
+                for idx, val in enumerate(state):
+                    if val != 0:
+                        non_empty_rows.append((idx, val))
+                
+                if len(non_empty_rows) == 0:
+                    print ("error no sticks to pick at all.")
 
-        print (rand_row)
+
+                non_empty_row = random.choice(non_empty_rows)
+                rand_row      = non_empty_row[0]
+                rand_sticks   = random.randint(1, state[rand_row])
+
+                print (rand_row)
+                print (rand_sticks)
+
+                return (rand_row, rand_sticks)
 
 
 def train(n):
