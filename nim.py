@@ -1,3 +1,4 @@
+from asyncio.windows_events import NULL
 import math
 import random
 import time
@@ -123,7 +124,12 @@ class NimAI():
         `alpha` is the learning rate, and `new value estimate`
         is the sum of the current reward and estimated future rewards.
         """
-        raise NotImplementedError
+
+        key = (tuple(state), action)
+        
+        self.q[key] = old_q + self.alpha * ((reward + future_rewards) - old_q)
+
+        # print ("test")
 
     def best_future_reward(self, state):
         """
@@ -136,24 +142,32 @@ class NimAI():
         `state`, return 0.
         """
 
-        print ("test")
+        # Get the best action (action with the best future reward)
+        best_action = self.best_action(state)
+        if best_action == NULL:
+            return 0
+        else:
+            return self.q[(tuple(state), best_action)]
 
-        # Make a list of every possible action from this state
-        possible_actions = []
+
+    def best_action(self, state):
+
+        best_action = NULL
+        best_future_reward = 0
         for idx, row in enumerate(state):
             if row == 0:
                 continue
 
             for num_sticks in range(1, row):
-                possible_actions.append(idx, num_sticks)
+                action = (idx, num_sticks)
+                state_action_key = (tuple(state), action)
+                if state_action_key in self.q:
+                    if self.q[state_action_key] > best_future_reward:
+                        best_action        = state_action_key[1]
+                        best_future_reward = self.q[state_action_key]
 
-        possible_state_actions = []
-        for action in possible_actions:
-            state_action_key = (tuple(state), action)
-            if state_action_key in self.q:
-                
+        return best_action
 
-        
 
     def choose_action(self, state, epsilon=True):
         """
@@ -172,27 +186,47 @@ class NimAI():
         """
         
         if epsilon == True:
-            # No available actions, so choose a random action
-            if len(self.q) == 0:
+
+            probability = random.randint(0, 100) / 100
+            
+            # Probability of epsilon: choose random move
+            if probability <= self.epsilon:
+                return self.random_action(state)
                 
-                # Make list of non empty rows to choose from
-                non_empty_rows = []
-                for idx, val in enumerate(state):
-                    if val != 0:
-                        non_empty_rows.append((idx, val))
+            # Probability of 1-epsilon: choose best move (Greedy)
+            else:
+                return self.choose_best_action(state)    
+
+        else:
+            return self.choose_best_action(state)
+
+
+    def choose_best_action(self, state):
+        best_action = self.best_action(state)
+        if best_action == NULL:
+            return self.random_action(state)
+        else:
+            return best_action
                 
-                if len(non_empty_rows) == 0:
-                    print ("error no sticks to pick at all.")
 
+    def random_action(self, state):
+        # Make list of non empty rows to choose from
+        non_empty_rows = []
+        for idx, val in enumerate(state):
+            if val != 0:
+                non_empty_rows.append((idx, val))
+        
+        if len(non_empty_rows) == 0:
+            print ("error no sticks to pick at all.")
 
-                non_empty_row = random.choice(non_empty_rows)
-                rand_row      = non_empty_row[0]
-                rand_sticks   = random.randint(1, state[rand_row])
+        non_empty_row = random.choice(non_empty_rows)
+        rand_row      = non_empty_row[0]
+        rand_sticks   = random.randint(1, state[rand_row])
 
-                print (rand_row)
-                print (rand_sticks)
+        # print (rand_row)
+        # print (rand_sticks)
 
-                return (rand_row, rand_sticks)
+        return (rand_row, rand_sticks)
 
 
 def train(n):
