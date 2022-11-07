@@ -1,0 +1,227 @@
+Stats for 1conv2d-43_3-3_2dense128-16_2drop05.txt:
+500/500 [==============================] - 161s 322ms/step - loss: 1.7317 - accuracy: 0.5146
+333/333 - 14s - loss: 1.0229 - accuracy: 0.6748 - 14s/epoch - 43ms/step
+
+
+Stats for 1conv2d-43_3-3_2dense128-64-64_3drop01.txt:
+
+
+Stats for 1conv2d-43_3-3_2dense128-64_1drop05.txt:
+500/500 [==============================] - 200s 401ms/step - loss: 0.6795 - accuracy: 0.8388
+333/333 - 19s - loss: 0.3852 - accuracy: 0.9022 - 19s/epoch - 58ms/step
+
+
+Stats for 1conv2d-43_3-3_3dense128-32-64_3drop01.txt:
+500/500 [==============================] - 368s 736ms/step - loss: 0.9744 - accuracy: 0.7134
+333/333 - 41s - loss: 0.8100 - accuracy: 0.7594 - 41s/epoch - 122ms/step
+
+
+Stats for 1conv2d-43_3-3_2dense128_128_2drop02.txt:
+500/500 [==============================] - 244s 489ms/step - loss: 0.6899 - accuracy: 0.8330
+333/333 - 21s - loss: 0.4737 - accuracy: 0.8918 - 21s/epoch - 63ms/step
+
+
+Stats for 1conv2d-43_3-3_2dense128-16_2drop02.txt:
+500/500 [==============================] - 152s 303ms/step - loss: 0.3269 - accuracy: 0.9412
+333/333 - 14s - loss: 0.3768 - accuracy: 0.9254 - 14s/epoch - 41ms/step
+
+
+Stats for 1conv2d-43_3-3_3dense128-64-16_3drop01.txt:
+500/500 [==============================] - 206s 412ms/step - loss: 0.4031 - accuracy: 0.9187
+333/333 - 20s - loss: 0.3968 - accuracy: 0.9044 - 20s/epoch - 59ms/step
+
+
+Stats for 1conv2d-43_3-3_2dense128-16_2drop01.txt:
+500/500 [==============================] - 152s 304ms/step - loss: 0.2526 - accuracy: 0.9523
+333/333 - 14s - loss: 0.5031 - accuracy: 0.9164 - 14s/epoch - 41ms/step
+
+
+Stats for 1conv2d-43_3-3_2dense128-32_2drop02.txt:
+500/500 [==============================] - 174s 349ms/step - loss: 0.3709 - accuracy: 0.9259
+333/333 - 16s - loss: 0.4600 - accuracy: 0.9148 - 16s/epoch - 48ms/step
+
+
+Stats for 1conv2d-43_3-3_2dense128-128_1drop05.txt:
+500/500 [==============================] - 245s 490ms/step - loss: 3.4821 - accuracy: 0.0739
+333/333 - 21s - loss: 3.4085 - accuracy: 0.0803 - 21s/epoch - 64ms/step
+
+
+Stats for 1conv2d-43_3-3_2dense256-128_2drop01.txt:
+
+
+Stats for 1conv2d-43_3-3_3dense128-64-32_3drop01.txt:
+333/333 - 24s - loss: 1.5980 - accuracy: 0.8209 - 24s/epoch - 71ms/step
+
+
+Stats for 1conv2d-43_3-3_2dense128-32_2drop01.txt:
+500/500 [==============================] - 165s 330ms/step - loss: 0.3652 - accuracy: 0.9376
+333/333 - 15s - loss: 0.4595 - accuracy: 0.9346 - 15s/epoch - 45ms/step
+
+
+Stats for 1conv2d-43_3-3_2dense128-32_2drop05.txt:
+500/500 [==============================] - 174s 347ms/step - loss: 0.5405 - accuracy: 0.8918
+333/333 - 16s - loss: 0.3854 - accuracy: 0.9133 - 16s/epoch - 48ms/step
+
+
+Stats for 1conv2d-43_3-3_2dense128_64_2drop02.txt:
+500/500 [==============================] - 200s 400ms/step - loss: 0.5025 - accuracy: 0.8925
+333/333 - 19s - loss: 0.3418 - accuracy: 0.9210 - 19s/epoch - 58ms/step
+
+
+Stats for 1conv2d-43_3-3_2dense128-128_2drop05.txt:
+500/500 [==============================] - 244s 488ms/step - loss: 3.4470 - accuracy: 0.0836
+333/333 - 21s - loss: 2.9577 - accuracy: 0.3011 - 21s/epoch - 63ms/step
+
+
+Stats for 1conv2d-43_3-3_2dense128-32_1drop02.txt:
+500/500 [==============================] - 178s 357ms/step - loss: 0.2358 - accuracy: 0.9459
+333/333 - 17s - loss: 0.3539 - accuracy: 0.9299 - 17s/epoch - 50ms/step
+
+
+Stats for 1conv2d-43_3-3_3dense128-32-32_3drop01.txt:
+500/500 [==============================] - 352s 704ms/step - loss: 0.3365 - accuracy: 0.9405
+333/333 - 39s - loss: 0.3817 - accuracy: 0.9226 - 39s/epoch - 117ms/step
+
+
+Stats for 1conv2d-43_3-3_2dense128-32_1drop05.txt:
+500/500 [==============================] - 176s 352ms/step - loss: 0.5502 - accuracy: 0.8751
+333/333 - 16s - loss: 0.4147 - accuracy: 0.8949 - 16s/epoch - 48ms/step
+
+
+Stats for 1conv2d-43_3-3_3fixDense128-64-32_3drop01.txt:
+500/500 [==============================] - 10s 20ms/step - loss: 0.3586 - accuracy: 0.9077
+333/333 - 2s - loss: 0.3041 - accuracy: 0.9282 - 2s/epoch - 6ms/step
+
+
+Stats for 1conv2d-43_3-3_2dense128_64_1drop02.txt:
+
+
+Stats for traffic_128-64-32_3dense_2drop01.txt:
+333/333 - 34s - loss: 0.4275 - accuracy: 0.9260 - 34s/epoch - 102ms/step
+
+
+Stats for 1conv2d-43_3-3_2dense128-64_2drop05.txt:
+500/500 [==============================] - 200s 400ms/step - loss: 0.7238 - accuracy: 0.8620
+333/333 - 19s - loss: 0.5257 - accuracy: 0.8888 - 19s/epoch - 58ms/step
+
+
+Stats for 1conv2d-43_3-3_2dense128-16_1drop05.txt:
+500/500 [==============================] - 162s 324ms/step - loss: 0.4264 - accuracy: 0.9262
+333/333 - 15s - loss: 0.8357 - accuracy: 0.8626 - 15s/epoch - 44ms/step
+
+
+Stats for 1conv2d-43_3-3_2dense128-16_1drop02.txt:
+500/500 [==============================] - 162s 324ms/step - loss: 0.2457 - accuracy: 0.9615
+333/333 - 15s - loss: 0.5503 - accuracy: 0.9293 - 15s/epoch - 44ms/step
+
+
+Stats for 1conv2d-43_3-3_3dense128-32-16_3drop01.txt:
+500/500 [==============================] - 177s 354ms/step - loss: 0.3008 - accuracy: 0.9386
+333/333 - 16s - loss: 0.2765 - accuracy: 0.9502 - 16s/epoch - 49ms/step
+
+
+Stats for 1conv2d-43_3-3_2dense128_128_1drop02.txt:
+500/500 [==============================] - 245s 489ms/step - loss: 0.3762 - accuracy: 0.9188
+333/333 - 21s - loss: 0.3437 - accuracy: 0.9224 - 21s/epoch - 63ms/step
+
+
+Stats for 1conv2d-43_3-3_2dense128-64_2drop01.txt:
+500/500 [==============================] - 189s 379ms/step - loss: 0.2236 - accuracy: 0.9578
+333/333 - 19s - loss: 0.4440 - accuracy: 0.9239 - 19s/epoch - 58ms/step
+
+
+Stats for traffic-5-1.txt:
+500/500 [==============================] - 175s 351ms/step - loss: 0.3747 - accuracy: 0.9135
+333/333 - 17s - loss: 0.6457 - accuracy: 0.8708 - 17s/epoch - 52ms/step
+
+
+Stats for traffic-1-1.txt:
+
+
+Stats for traffic-3-1.txt:
+
+
+Stats for traffic-4-1.txt:
+500/500 [==============================] - 6s 13ms/step - loss: 1.6558 - accuracy: 0.4735
+333/333 - 1s - loss: 1.2010 - accuracy: 0.6338 - 1s/epoch - 4ms/step
+
+
+Stats for traffic-6-1.txt:
+500/500 [==============================] - 86s 171ms/step - loss: 0.3755 - accuracy: 0.8947
+333/333 - 11s - loss: 0.5425 - accuracy: 0.8712 - 11s/epoch - 32ms/step
+
+
+Stats for traffic-2-1.txt:
+
+
+Stats for traffic_KernelSizes6-filter16-1.txt:
+500/500 [==============================] - 5s 10ms/step - loss: 0.8095 - accuracy: 0.7646
+333/333 - 1s - loss: 0.4777 - accuracy: 0.8794 - 1s/epoch - 3ms/step
+
+
+Stats for traffic_KernelSizes6-denseNumCat64-1.txt:
+500/500 [==============================] - 48s 96ms/step - loss: 0.4963 - accuracy: 0.8891
+333/333 - 6s - loss: 0.6123 - accuracy: 0.9003 - 6s/epoch - 18ms/step
+
+
+Stats for traffic_KernelSizes6-denseNumCat128-64-1.txt:
+500/500 [==============================] - 135s 270ms/step - loss: 3.4169 - accuracy: 0.0988
+333/333 - 14s - loss: 3.3762 - accuracy: 0.0980 - 14s/epoch - 42ms/step
+
+
+Stats for traffic_KernelSizes6-denseNumCat16-16-1.txt:
+500/500 [==============================] - 18s 35ms/step - loss: 0.5035 - accuracy: 0.8676
+333/333 - 3s - loss: 0.4603 - accuracy: 0.8742 - 3s/epoch - 8ms/step
+
+
+Stats for traffic_KernelSizes6-denseNumCat32-1.txt:
+500/500 [==============================] - 26s 51ms/step - loss: 0.4925 - accuracy: 0.8842
+333/333 - 3s - loss: 0.5672 - accuracy: 0.8842 - 3s/epoch - 10ms/step
+
+
+Stats for traffic_KernelSizes6-denseNumCat16-1.txt:
+500/500 [==============================] - 14s 29ms/step - loss: 0.4343 - accuracy: 0.8871
+333/333 - 2s - loss: 0.4831 - accuracy: 0.9020 - 2s/epoch - 7ms/step
+
+
+Stats for trafficKernelSizes-5-1.txt:
+500/500 [==============================] - 8s 15ms/step - loss: 0.7747 - accuracy: 0.7740
+333/333 - 2s - loss: 0.4377 - accuracy: 0.8812 - 2s/epoch - 5ms/step
+
+
+Stats for trafficKernelSizes-7-1.txt:
+500/500 [==============================] - 8s 17ms/step - loss: 0.7394 - accuracy: 0.7935
+333/333 - 2s - loss: 0.5334 - accuracy: 0.8646 - 2s/epoch - 5ms/step
+
+
+Stats for traffic_KernelSizes6-filter64-1.txt:
+500/500 [==============================] - 5s 10ms/step - loss: 0.7192 - accuracy: 0.7943
+333/333 - 1s - loss: 0.5025 - accuracy: 0.8747 - 1s/epoch - 3ms/step
+
+
+Stats for trafficKernelSizes-6-1.txt:
+500/500 [==============================] - 8s 15ms/step - loss: 0.6333 - accuracy: 0.8221
+333/333 - 2s - loss: 0.3984 - accuracy: 0.9101 - 2s/epoch - 5ms/step
+
+
+Stats for trafficKernelSizes-4-1.txt:
+500/500 [==============================] - 7s 13ms/step - loss: 1.7834 - accuracy: 0.4715
+333/333 - 1s - loss: 1.0899 - accuracy: 0.6648 - 1s/epoch - 4ms/step
+
+
+Stats for 1conv2d-32_3-3_1dense128_1drop02.txt:
+500/500 [==============================] - 108s 217ms/step - loss: 0.3473 - accuracy: 0.9557
+333/333 - 10s - loss: 1.4642 - accuracy: 0.8694 - 10s/epoch - 30ms/step
+
+
+Stats for 1conv2d-43_3-3_1dense128_1drop05.txt:
+
+
+Stats for 1conv2d-32_3-3_1dense256_1drop05.txt:
+500/500 [==============================] - 217s 434ms/step - loss: 0.8328 - accuracy: 0.8965
+333/333 - 18s - loss: 1.8321 - accuracy: 0.8479 - 18s/epoch - 55ms/step
+
+
+Stats for 1conv2d-43_3-3_1dense128_1drop02.txt:
+
+
