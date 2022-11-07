@@ -58,16 +58,18 @@ def load_data(data_dir):
     be a list of integer labels, representing the categories for each of the
     corresponding `images`.
     """
-
+    
     images = []
     labels = []
     
     for subdir, dirs, files in os.walk(data_dir):
+        print (f"{subdir}")
         for file in files:
 
-            # Hoping this works on both Linux and Windows paths
+            if not file.endswith(".ppm"):
+                continue
+
             category = subdir.split('\\')[-1].split('/')[-1]
-            # print (category + ', ' + file)
 
             image = cv2.imread(os.path.join(subdir, file))
             image = cv2.resize(image, (IMG_WIDTH, IMG_HEIGHT))
@@ -84,7 +86,39 @@ def get_model():
     `input_shape` of the first layer is `(IMG_WIDTH, IMG_HEIGHT, 3)`.
     The output layer should have `NUM_CATEGORIES` units, one for each category.
     """
-    raise NotImplementedError
+
+    model = tf.keras.models.Sequential([
+        
+        # Convolutional layer. Learn 32 filters using a 3x3 kernel
+        tf.keras.layers.Conv2D(
+            NUM_CATEGORIES, (3, 3), activation="relu", input_shape=(IMG_WIDTH, IMG_HEIGHT, 3)
+        ),
+
+        # Max-pooling layer, using 2x2 pool size
+        tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
+
+        # Flatten units
+        tf.keras.layers.Flatten(),
+
+        # Add hidden layers with a dropout
+        # tf.keras.layers.Dense(NUM_CATEGORIES * 32, activation="relu"),
+
+        tf.keras.layers.Dense(NUM_CATEGORIES * 16, activation="relu"),
+        tf.keras.layers.Dropout(0.2),
+
+        tf.keras.layers.Dense(NUM_CATEGORIES * 8, activation="relu"),
+
+        # Add an output layer with output units for all cetegories
+        tf.keras.layers.Dense(NUM_CATEGORIES, activation="softmax")
+    ])
+
+    model.compile(
+        optimizer="adam",
+        loss="categorical_crossentropy",
+        metrics=["accuracy"]
+    )
+
+    return model
 
 
 if __name__ == "__main__":

@@ -1,1 +1,5 @@
 gtsrb/*
+gtsrb-small/*
+src5/*
+__pycache__/*
+.vscode/*
