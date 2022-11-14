@@ -1,4 +1,5 @@
 import nltk
+nltk.download('punkt')
 import sys
 
 TERMINALS = """
@@ -15,7 +16,9 @@ V -> "smiled" | "tell" | "were"
 """
 
 NONTERMINALS = """
-S -> N V
+S -> NP VP
+NP -> N | N NP | N VP | P NP | Det Adj NP | Det N NP | Det N | Adj NP | Conj NP | Conj VP
+VP -> V | V NP | V Adv NP | Adv V NP | Adv
 """
 
 grammar = nltk.CFG.fromstring(NONTERMINALS + TERMINALS)
@@ -62,8 +65,21 @@ def preprocess(sentence):
     and removing any word that does not contain at least one alphabetic
     character.
     """
-    raise NotImplementedError
 
+    # List of tokenized words from the sentence, to return
+    words = []
+
+    tokens = nltk.word_tokenize(sentence)
+    for token in tokens:
+
+        # Only keep words that have at least one alphabetic character
+        if not any(c.isalpha() for c in token):
+            continue
+
+        # Make all letters lowercase before appending the tokenized word
+        words.append(token.lower())
+
+    return words
 
 def np_chunk(tree):
     """
@@ -72,7 +88,28 @@ def np_chunk(tree):
     whose label is "NP" that does not itself contain any other
     noun phrases as subtrees.
     """
-    raise NotImplementedError
+
+    final_chunks = []
+
+    # Do a NLR traversal of the nltk Tree keeping track of the lowest NP
+    for node in tree:
+        lowest_np = None
+        # If current node is a NP node, keep track of it as the possible lowest NP node
+        if isinstance(node, nltk.Tree) and node.label() == 'NP':
+            lowest_np = node
+        
+        lower_chunks = []
+        # Recursively call np_chunk to traverse each nltk tree node in the tree
+        if isinstance(node, nltk.Tree) and len(node) > 0:
+            lower_chunks = np_chunk(node)
+
+        # keep track of the lowest NP chunk(s)
+        if lower_chunks != []:
+            final_chunks.extend(lower_chunks)
+        elif lowest_np != None:
+            final_chunks.append(lowest_np)
+
+    return final_chunks
 
 
 if __name__ == "__main__":

@@ -8,11 +8,12 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "C:\\Users\\mtr24\\OneDrive\\Desktop\\Projects\\CS50AI\\CS50AI_Dev\\play.py",
+            "program": "/Users/mat/Desktop/Projects/CS50AI_Dev/parser.py",
             // "program": "C:\\Users\\mtr24\\OneDrive\\Desktop\\Projects\\CS50AI\\CS50AI_Dev\\test2.py",
-            // "args": ["C:\\Users\\mtr24\\OneDrive\\Desktop\\Projects\\CS50AI\\CS50AI_Dev\\data\\structure0.txt",
-            //          "C:\\Users\\mtr24\\OneDrive\\Desktop\\Projects\\CS50AI\\CS50AI_Dev\\data\\words0.txt"],
-            "console": "integratedTerminal"
+            "args": ["/Users/mat/Desktop/Projects/CS50AI_Dev/sentences/3.txt"],
+            // "args": ["C:\\Users\\mtr24\\OneDrive\\Desktop\\Projects\\CS50AI\\CS50AI_Dev\\sentences\\2.txt"],
+            "console": "integratedTerminal",
+            // "justMyCode": false
         }
     ]
 }
