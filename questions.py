@@ -55,7 +55,7 @@ def load_files(directory):
 
     file_content_mapping = {}
 
-    # 
+    # Validate that directory is valid
     if not os.path.isdir(directory):
         print (f"Error: {directory} is not a valid directory")
         exit()
@@ -69,6 +69,7 @@ def load_files(directory):
             with open(filepath, 'r') as file:
                 filedata = file.read()
 
+            # Load file content into dictionary of file : content
             file_content_mapping[filename] = filedata
 
     return file_content_mapping
@@ -106,8 +107,6 @@ def tokenize(document):
             
         # Lowercase token and append to return list
         words.append(processed_token.lower())
-
-    # print (words)
 
     return words
 
@@ -158,13 +157,8 @@ def top_files(query, files, idfs, n):
     files that match the query, ranked according to tf-idf.
     """
 
-    # If a query word does not exist in any document, dont process it
-    applicable_query_tokens = []
-    for query_token in query:
-        if not query_token in idfs.keys():
-            print (f"Term {query_token} does not exist in any document, skipping.")
-            continue
-        applicable_query_tokens.append(query_token)
+    # Only keep query tokens that we have an IDF metric on
+    applicable_query_tokens = filter_applicable_query_tokens(query, idfs)
 
     print ("Calculating term frequencies...")
     doc_metrics = []
@@ -181,9 +175,7 @@ def top_files(query, files, idfs, n):
             tf_idf = term_freq * idfs[query_token]
             doc_term_total_tf_idf += tf_idf
 
-            # print (f"debugmr2: {doc} ({query_token}) {term_freq}")
-            # All tf_idf of applicable query words that also appear in the file are to be summed up and placed in list of (docname, sum(tf_idf))
-
+        # keep a list of the query's meaningful docs and their corresponding tf_idf metric
         if doc_term_total_tf_idf != 0:
             doc_metrics.append((doc, doc_term_total_tf_idf))
     
@@ -192,21 +184,13 @@ def top_files(query, files, idfs, n):
     # Sort doc_metrics by doc-term-total tf-idf rank:
     doc_metrics.sort(key=lambda tfidf: tfidf[1], reverse=True)
 
-    ###
-    print (f"doc_metrics: {doc_metrics}")
-
     # Keep top 'n' docs
     doc_metrics = doc_metrics[:n]
 
     # Return the list of just the top doc filenames
     top_docs = [doc[0] for doc in doc_metrics]
 
-###
-    print (f"top docs: {top_docs}")
-
     return top_docs
-
-    
 
 
 def top_sentences(query, sentences, idfs, n):
@@ -218,44 +202,21 @@ def top_sentences(query, sentences, idfs, n):
     be given to sentences that have a higher query term density.
     """
 
-    # [] query
-    # {} sentence : words
-    # {} word : IDF
-    # n top sentences
+    # Only keep query tokens that we have an IDF metric on
+    applicable_query_tokens = filter_applicable_query_tokens(query, idfs)
 
-    print ("Computing top sentences...")
-
-    # If a query word does not exist in any document, dont process it
-    applicable_query_tokens = []
-    for query_token in query:
-        if not query_token in idfs.keys():
-            print (f"Term {query_token} does not exist in any document, skipping.")
-            continue
-        applicable_query_tokens.append(query_token)
-
-###
-    print (f"query: {query}") 
-
+    print ("Finding relevant sentences...")
     matching_word_measures = []
-
-    # i = 0
 
     # For each sentence and its words
     for sentence, words in sentences.items():
-        # print (sentence)
-        # print ("")
 
-        # Keep track of how many query tokens 
+        # Keep track of the count of query tokens that occur in the sentence
         query_token_hits = 0
         # Keep a Running total of the IDF of each query term applicable in this sentence
         sentence_word_idf_sum = 0
-
-###
-        test = []
-        if "ai" in words and "winter" in words:
-            print ("---break---")
         
-        # For each term(token) in query, accumulate the 'matching word measure'
+        # For each term(token) of the query, accumulate the 'matching word measure' (sentence_word_idf_sum) and the query token hits
         for query_token in applicable_query_tokens:
 
             # Only accumulate the IDF if the query token appears in the sentence words, also count number of appearances
@@ -266,38 +227,15 @@ def top_sentences(query, sentences, idfs, n):
             query_token_hits += token_freq
             sentence_word_idf_sum += idfs[query_token]
 
-            test.append(idfs[query_token])
-            
-            # print (f"debugmr1: {doc} ({query_token}) {term_freq}")
-
         if sentence_word_idf_sum != 0:
+            # Calculate the density of query words in a sentence
             sentence_query_token_density = query_token_hits / len(words)
-            matching_word_measures.append((sentence, sentence_word_idf_sum, sentence_query_token_density, query_token_hits, len(words)))
+            matching_word_measures.append((sentence, sentence_word_idf_sum, sentence_query_token_density))
 
-    print ("Computing top relevant sentences...")
+    print ("Computing top sentences...")
 
-    # matching_word_measures.sort(key=lambda idf_sum: idf_sum[1], reverse=True)
-
-    # f = open("out1.txt", "w")
-    # matching_word_measures = matching_word_measures[:10]
-    # for sentence, measure, query_token_hits, test in matching_word_measures:
-    #     print (f"{sentence}\n   {measure}\n   {query_token_hits}\n   {test}\n", file=f)
-    # f.close()
-
-
-    # Sort doc_metrics by doc-term-total tf-idf rank:
+    # Sort query_metrics by sentence's query_token total tf-idf rank and secondarily by sentence's query_token density:
     matching_word_measures = sorted(matching_word_measures, key=lambda query_metrics: (query_metrics[1], query_metrics[2]), reverse=True)
-    # matching_word_measures.sort(key=lambda idf_sum: idf_sum[1], reverse=True)
-
-
-    # new_list = sorted(a_list, key=lambda x: (len(x), x))
-
-
-    f = open("out2.txt", "w")
-    matching_word_measures = matching_word_measures[:10]
-    for sentence, measure, sentence_query_token_density, query_token_hits, num_words in matching_word_measures:
-        print (f"{sentence}\n   {measure}\n   {sentence_query_token_density}\n   {query_token_hits}\n   {num_words}\n", file=f)
-    f.close()
 
     # Keep top 'n' matching word measures
     matching_word_measures = matching_word_measures[:n]
@@ -305,13 +243,20 @@ def top_sentences(query, sentences, idfs, n):
     # Return the list of just the top doc filenames
     top_sentences = [sentence[0] for sentence in matching_word_measures]
 
-
-        # if i == 10:
-        #     break
-
-        # i += 1
-
     return top_sentences
+
+
+def filter_applicable_query_tokens(query, idfs):
+
+    # If a query word does not exist in any document, we dont have an IDF metric about it so dont process it
+    applicable_query_tokens = []
+    for query_token in query:
+        if not query_token in idfs.keys():
+            print (f"Term {query_token} does not exist in any document, skipping.")
+            continue
+        applicable_query_tokens.append(query_token)
+
+    return applicable_query_tokens
 
 
 if __name__ == "__main__":
