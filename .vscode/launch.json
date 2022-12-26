@@ -8,9 +8,9 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "/Users/mat/Desktop/Projects/CS50AI_Dev/parser.py",
+            "program": "/Users/mat/Desktop/Projects/CS50AI_Dev/questions.py",
             // "program": "C:\\Users\\mtr24\\OneDrive\\Desktop\\Projects\\CS50AI\\CS50AI_Dev\\test2.py",
-            "args": ["/Users/mat/Desktop/Projects/CS50AI_Dev/sentences/3.txt"],
+            "args": ["corpus"],
             // "args": ["C:\\Users\\mtr24\\OneDrive\\Desktop\\Projects\\CS50AI\\CS50AI_Dev\\sentences\\2.txt"],
             "console": "integratedTerminal",
             // "justMyCode": false
