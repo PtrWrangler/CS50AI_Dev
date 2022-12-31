@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 import math
 import random
 import time
@@ -149,7 +148,7 @@ class NimAI():
 
         # Get the best action (action with the best future reward)
         best_action = self.best_action(state)
-        if best_action == NULL:
+        if best_action == None:
             return 0
         else:
             return self.q[(tuple(state), best_action)]
@@ -157,7 +156,7 @@ class NimAI():
 
     def best_action(self, state):
 
-        best_action = NULL
+        best_action = None
         best_future_reward = 0
         for idx, row in enumerate(state):
             if row == 0:
@@ -209,7 +208,7 @@ class NimAI():
 
     def choose_best_action(self, state):
         best_action = self.best_action(state)
-        if best_action == NULL:
+        if best_action == None:
             return self.random_action(state)
         else:
             return best_action
