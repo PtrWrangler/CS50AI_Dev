@@ -1,0 +1,19 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: Current File",
+            "type": "python",
+            "request": "launch",
+            "program": "/Users/mat/Desktop/Projects/CS50AI_Dev/test2.py",
+            // "program": "C:\\Users\\mtr24\\OneDrive\\Desktop\\Projects\\CS50AI\\CS50AI_Dev\\test2.py",
+            "args": ["corpus2"],
+            // "args": ["C:\\Users\\mtr24\\OneDrive\\Desktop\\Projects\\CS50AI\\CS50AI_Dev\\sentences\\2.txt"],
+            "console": "integratedTerminal",
+            // "justMyCode": false
+        }
+    ]
+}
