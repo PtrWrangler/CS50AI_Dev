@@ -61,23 +61,22 @@ def transition_model(corpus, page, damping_factor):
     # Initialise probability distribution dict
     prob_dist = {webpage: 0 for webpage in corpus}
 
-    # Probability of following a link from the current page
-    link_follow_prob = damping_factor / len(corpus.get(page))
-
-    # Probability of random page
-    random_page_prob = (1 - damping_factor) / len(corpus)
-
     # If Webpage has no links, give equal probability to all pages
     if len(list(corpus.get(page))) == 0:
-        print("webpage has no links, equal probability for all pages.")
         equal_probability = 1 / len(corpus)
         for webpage in corpus.keys():
             prob_dist[webpage] = equal_probability
     else:
+        # Probability of following a link from the current page
+        link_follow_prob = damping_factor / len(corpus.get(page))
+
+        # Probability of random page
+        random_page_prob = (1 - damping_factor) / len(corpus)
+
         # Sum the possible probabilities to the distribution (Marginalization?)
         for webpage in corpus:
             prob_dist[webpage] += random_page_prob
-            if webpage in list(corpus.get(page)):
+            if webpage in corpus.get(page):
                 prob_dist[webpage] += link_follow_prob
 
     return prob_dist
@@ -92,18 +91,20 @@ def sample_pagerank(corpus, damping_factor, n):
     their estimated PageRank value (a value between 0 and 1). All
     PageRank values should sum to 1.
     """
+
+    print ("Sample PageRank:")
     
     # For each webpage key in corpus, initialize hit count
     page_hits = {webpage: 0 for webpage in corpus}
     
     # Randomly choose first page
-    cur_page = random.choice(list(corpus.items()))[0]
-    page_hits[cur_page] += 1
+    current_page = random.choice(list(corpus.items()))[0]
+    page_hits[current_page] += 1
+    print (f"  Random Surfer starting on page '{current_page}'")
 
     # Travel the corpus rand only and/or conditionally based on the damping factor, logging page hit counts
     for sample in range(n-1):
-
-        transit_model = transition_model(corpus, cur_page, DAMPING)
+        transit_model = transition_model(corpus, current_page, damping_factor)
 
         # Travel to next page based on the transition model probabilities
         rand_val = random.uniform(0, 1)
@@ -112,11 +113,11 @@ def sample_pagerank(corpus, damping_factor, n):
         for webpage, probability in transit_model.items():
             total_prob += probability
             if rand_val <= total_prob:
-                curr_page = webpage
+                current_page = webpage
                 break
 
         # log a page hit for the newly chosen page selected using the transition model probabilities
-        page_hits[curr_page] += 1
+        page_hits[current_page] += 1
 
     # Get the final page rank probabilities by dividing the page hits by the total numbert of samples
     page_ranks = {webpage: (hits/n) for webpage, hits in page_hits.items()}
@@ -133,6 +134,8 @@ def iterate_pagerank(corpus, damping_factor):
     their estimated PageRank value (a value between 0 and 1). All
     PageRank values should sum to 1.
     """
+
+    print ("Iterate PageRank:")
 
     # Initialize the Page Ranks with equal probability for each page
     page_ranks_dict = {webpage: 1/len(corpus) for webpage in corpus}
