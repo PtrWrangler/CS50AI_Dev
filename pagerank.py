@@ -99,6 +99,7 @@ def sample_pagerank(corpus, damping_factor, n):
     
     # Randomly choose first page
     current_page = random.choice(list(corpus.items()))[0]
+    # current_page = 'ai.html'
     page_hits[current_page] += 1
     print (f"  Random Surfer starting on page '{current_page}'")
 
@@ -141,7 +142,7 @@ def iterate_pagerank(corpus, damping_factor):
     page_ranks_dict = {webpage: 1/len(corpus) for webpage in corpus}
 
     # Threshold of PageRank value convergence
-    threshold = 0.0005
+    threshold = 0.0001
 
     # Loop until all all page rank changes are negligable
     nothing_changed = False
